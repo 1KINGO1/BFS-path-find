@@ -1,22 +1,22 @@
 export default class Tile {
     constructor(name, location, isPassable) {
-        this.element = null;
         this.name = name;
         this.location = location;
         this.isPassable = isPassable;
-    }
-    render(wrapper) {
-        if (this.element) {
-            this.element.remove();
-        }
-        const tile = document.createElement('div');
+        const tile = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         this.element = tile;
         tile.classList.add('tile');
-        if (!this.isPassable) {
+        tile.classList.add(`tile-variant-${Math.floor(Math.random() * 4) + 1}`);
+        if (!isPassable) {
             tile.classList.add('blocked');
         }
-        tile.innerText = this.name;
-        wrapper.appendChild(tile);
+    }
+    switchPassable() {
+        this.isPassable = !this.isPassable;
+        this.element.classList.toggle('blocked');
+    }
+    getElement() {
+        return this.element;
     }
     markAsPath() {
         var _a;

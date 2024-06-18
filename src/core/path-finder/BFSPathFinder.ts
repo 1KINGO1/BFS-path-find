@@ -1,8 +1,9 @@
 import ITile from '../interface/ITile';
 import ILocation from '../interface/ILocation';
 import ITileWithParent from '../interface/ITileWithParent';
+import IPathFinder from '../interface/IPathFinder';
 
-export default class BFSPathFinder<Tile extends ITile> {
+export default class BFSPathFinder<Tile extends ITile> implements IPathFinder<Tile>	{
 	private readonly locations: ILocation[];
 	private readonly tileList: Map<ILocation, Tile | null>;
 

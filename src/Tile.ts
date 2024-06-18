@@ -6,30 +6,29 @@ export default class Tile implements ITile {
 	location: Location;
 	isPassable: boolean;
 
-	element: HTMLElement | null = null
+	element: SVGRectElement;
 
 	constructor(name: string, location: Location, isPassable: boolean) {
 		this.name = name;
 		this.location = location;
 		this.isPassable = isPassable;
-	}
 
-	render(wrapper: HTMLElement) {
-
-		if (this.element) {
-			this.element.remove();
-		}
-
-		const tile = document.createElement('div');
+		const tile = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 		this.element = tile;
 		tile.classList.add('tile');
-		if (!this.isPassable) {
+		tile.classList.add(`tile-variant-${Math.floor(Math.random() * 4) + 1}`)
+
+		if (!isPassable) {
 			tile.classList.add('blocked');
 		}
+	}
 
-		tile.innerText = this.name;
-
-		wrapper.appendChild(tile);
+	switchPassable() {
+		this.isPassable = !this.isPassable;
+		this.element.classList.toggle('blocked');
+	}
+	getElement(){
+		return this.element;
 	}
 
 	markAsPath() {

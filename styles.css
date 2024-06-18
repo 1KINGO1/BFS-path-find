@@ -1,36 +1,61 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-#wrapper {
-    display: grid;
-    width: 800px;
-    height: 800px;
-    margin: 0 auto;
-    grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: repeat(16, 1fr);
-    background-color: gray;
+#board-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #151515;
+}
+
+#board {
+    box-sizing: content-box;
+    padding: 10px;
+    border: 4px solid #adadad;
+}
+
+body {
+    overflow: hidden;
 }
 
 .tile {
-    border: 1px solid black;
-    background-color: white;
+    stroke-width: 2px;
+    stroke: #171716;
+    cursor: pointer;
+}
+
+.tile-variant-1 {
+    fill: #adadad;
+}
+.tile-variant-2 {
+    fill: #817f7f;
+}
+.tile-variant-3 {
+    fill: #9b9c9b;
+}
+.tile-variant-4 {
+    fill: #96949c;
 }
 
 .passed {
-    background-color: #10f1f1;
+    fill: #10f1f1;
 }
 
 .path {
-    background-color: #10f110;
+    fill: #10f110;
 }
 
 .selected {
-    background-color: #f1f110;
+    fill: #f1f110;
 }
 
 .blocked {
-    background-color: #f11010;
+    fill: #f11010;
 }
 
 
