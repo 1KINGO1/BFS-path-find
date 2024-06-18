@@ -1,4 +1,4 @@
-import ILocation from './core/interface/ILocation';
+import ILocation from '../core/interface/ILocation';
 
 export default class Location implements ILocation{
 	x: number;
@@ -14,4 +14,7 @@ export default class Location implements ILocation{
 		return nextLocation || null;
 	}
 
+	isEqual(location: Location): boolean {
+		return this.x === location.x && this.y === location.y;
+	}
 }

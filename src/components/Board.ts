@@ -1,4 +1,4 @@
-import Tile from '../Tile.js';
+import Tile from './Tile';
 
 export default class Board {
 	private readonly element: SVGSVGElement;
@@ -22,19 +22,23 @@ export default class Board {
 		return this.element;
 	}
 
-	renderTile(tile: Tile){
+	renderTile(tile: Tile) {
 		const existingTile = this.element.querySelector(`#tile-${tile.location.x}-${tile.location.y}`);
 
 		this.setTileSizeAndPosition(tile);
 
-		if(existingTile) {
+		if (existingTile) {
 			this.element.replaceChild(tile.getElement(), existingTile);
 		} else {
 			this.element.appendChild(tile.getElement());
 		}
 	}
 
-	setTileSizeAndPosition(tile: Tile){
+	clearTiles() {
+		this.element.innerHTML = '';
+	}
+
+	setTileSizeAndPosition(tile: Tile) {
 		const width = this.size / this.tileCount;
 		const height = this.size / this.tileCount;
 

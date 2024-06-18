@@ -1,4 +1,4 @@
-import ITile from './core/interface/ITile';
+import ITile from '../core/interface/ITile';
 import Location from './Location';
 
 export default class Tile implements ITile {
@@ -23,7 +23,7 @@ export default class Tile implements ITile {
 		}
 	}
 
-	switchPassable() {
+	togglePassable() {
 		this.isPassable = !this.isPassable;
 		this.element.classList.toggle('blocked');
 	}
