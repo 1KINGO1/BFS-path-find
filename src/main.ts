@@ -1,4 +1,4 @@
-import PathFinder from './core/PathFinder.js';
+import BFSPathFinder from './core/path-finder/BFSPathFinder';
 import Tile from './Tile.js';
 import Location from './Location.js';
 
@@ -21,6 +21,6 @@ entries.forEach(([_, tile]) => {
 
 const tileList = new Map(entries);
 
-const pathFinder = new PathFinder<Tile>(locations, tileList);
+const pathFinder = new BFSPathFinder<Tile>(locations, tileList);
 const path = pathFinder.findPath(tileList.get(locations[0]) as Tile, tileList.get(locations[locations.length - 1]) as Tile);
 path.then(path => path.forEach(tile => tile.markAsPath()));

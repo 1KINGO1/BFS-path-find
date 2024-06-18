@@ -1,4 +1,4 @@
-import ILocation from './core/ILocation';
+import ILocation from './core/interface/ILocation';
 
 export default class Location implements ILocation{
 	x: number;
