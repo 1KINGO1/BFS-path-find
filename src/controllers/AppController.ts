@@ -1,47 +1,47 @@
-import Board from '../ui/Board';
-import Location from '../Location';
-import Tile from '../Tile';
-import BFSPathFinder from '../core/path-finder/BFSPathFinder';
+import Board from '../ui/Board.js';
+import Location from '../Location.js';
+import Tile from '../Tile.js';
+import BFSPathFinder from '../core/path-finder/BFSPathFinder.js';
 import IPathFinder from '../core/interface/IPathFinder';
 
 export default class AppController {
 
-	private readonly tileCountX: number = 16;
+	private readonly tilesX: number = 16;
 	private readonly boardSize: number = 600;
 
-	init() {
-		const board = new Board(this.boardSize, this.tileCountX);
+	private readonly tileList: Map<Location, Tile>;
+	private readonly board: Board;
 
-		const [tilesX, tilesY] = this.getTilesCount(this.boardSize);
+	constructor() {
+		this.board = new Board(this.boardSize, this.tilesX);
 
-		const locations = new Array(tilesX * tilesY)
+		const [locations, tileList] = this.createTileList();
+		this.tileList = tileList;
+
+		this.renderTiles();
+
+		const pathFinder: IPathFinder<Tile> = new BFSPathFinder<Tile>(locations, this.tileList);
+		const path = pathFinder.findPath(this.tileList.get(locations[0]) as Tile, this.tileList.get(locations[locations.length - 1]) as Tile);
+		path.then(path => path.forEach(tile => tile.markAsPath()));
+	}
+
+	private createTileList(): [Location[], Map<Location, Tile>]  {
+		const locations = new Array(this.tilesX * this.tilesX)
 			.fill(null)
 			.map((_, index) =>
-				new Location(index % tilesX, Math.floor(index / tilesX))
+				new Location(index % this.tilesX, Math.floor(index / this.tilesX))
 			);
 
 		const entries: [Location, Tile][] = locations.map(location =>
 			[location, new Tile(`tile-${location.x}-${location.y}`, location, Math.random() > 0.2)]
 		);
-		entries.forEach(([_, tile]) => {
-			board.renderTile(tile);
-			this.addTileEventListener(tile);
-		})
 
-		const tileList = new Map(entries);
-
-		const pathFinder: IPathFinder<Tile> = new BFSPathFinder<Tile>(locations, tileList);
-		const path = pathFinder.findPath(tileList.get(locations[0]) as Tile, tileList.get(locations[locations.length - 1]) as Tile);
-		path.then(path => path.forEach(tile => tile.markAsPath()));
+		return [locations, new Map(entries)];
 	}
-	private getTilesCount(size: number): [number, number] {
-		const tileSize = size / this.tileCountX;
-		const tilesY = Math.floor(size / tileSize);
-		return [this.tileCountX, tilesY];
-	}
-	private addTileEventListener(tile: Tile){
-		tile.getElement().addEventListener('click', () => {
-			tile.switchPassable()
+	private renderTiles() {
+		this.tileList.forEach(tile => {
+			this.board.renderTile(tile);
 		});
+
 	}
 }
